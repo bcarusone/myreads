@@ -33,7 +33,7 @@ enum GENRE {
     DYSTOPIAN
     ADVENTURE
     MYSTERY
-    HORROW
+    HORROR
     SUSPENSE
     HISTORICAL_FICTION
     ROMANCE
@@ -60,6 +60,7 @@ enum GENRE {
     HOW_TO
     SPIRITUALITY
     PARENTING
+    RELATIONSHIPS
     SCIENCE
     TECHNOLOGY
     SOCIAL_SCIENCES
@@ -73,9 +74,9 @@ enum READING_METHOD {
 }
 
 class book {
-    {field} id : **uuid**
+    id : **uuid**
     title : **str**
-    subtitle : s**tr**
+    subtitle : **str**
     author : **List[str]**
     published_date : **datetime**
     published_location : **str**
@@ -92,27 +93,6 @@ class book {
     cover : **str**
     category : **CATEGORY**
     genre : **GENRE**
-    + populate_missing_data()
-    + create()
-    + get_citation()
-    + get_cover()
-}
-
-class collection {
-    id : **uuid**
-    name : **str**
-    books : **List[book]**
-    created_at : **datetime**
-    updated_at : **datetime**
-    + create_collection()
-    + add_to_collection()
-    + remove_from_collection()
-    + rename_collection()
-}
-
-class personal_book_data {
-    id : **uuid**
-    book : **book**
     rating : **float**
     review : **str**
     current_page : **int**
@@ -127,11 +107,24 @@ class personal_book_data {
     source : **SOURCE**
     status : **STATUS**
     format : **FORMAT**
+    updates: **List[update]**
+    + get_citation()
+    + get_cover()
     + start()
     + update_status()
-    + set_format()
-    + set_reading_method()
+    + add_update()
     + complete()
+}
+
+class collection {
+    id : **uuid**
+    name : **str**
+    books : **List[book]**
+    created_at : **datetime**
+    updated_at : **datetime**
+    + add_to_collection()
+    + remove_from_collection()
+    + rename_collection()
 }
 
 class annotation {
@@ -158,25 +151,20 @@ class status_update {
     id : **uuid**
     created_at : **datetime**
     book : **book**
-    highlights : **List[highlights]**
-    notes : **List[notes]**
     current_page : **int**
-    + create_status_update()
-    + modify_status_update()
+    annotation: **List[Annotation]**
 }
 
-book *-- personal_book_data
 book o-- GENRE
 book o-- CATEGORY
 book -- collection
+book o-- SOURCE
+book o-- FORMAT
+book o-- READING_METHOD
+book *-- annotation
+book *-- status_update
+book -- STATUS
 
-personal_book_data o-- SOURCE
-personal_book_data o-- FORMAT
-personal_book_data o-- READING_METHOD
-personal_book_data *-- annotation
-personal_book_data *-- status_update
-personal_book_data -- STATUS
-
-footer Created 12/19/2022 // Last updatedc 12/19/2022
+footer Created 12/19/2022 // Last updated 12/19/2022
 
 @enduml

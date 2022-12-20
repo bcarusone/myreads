@@ -1,0 +1,170 @@
+@startuml
+
+title MyReads Data Model
+
+enum FORMAT {
+    EBOOK
+    AUDIOBOOK
+    PAPERBACK
+    HARDCOVER
+}
+
+enum STATUS {
+    TO_READ
+    DID_NOT_FINISH
+    PAUSED
+    READ
+}
+
+enum SOURCE {
+    OWN
+    LIBRARY
+    BORROWED
+}
+
+enum CATEGORY {
+    FICTION
+    NON_FICTION
+}
+
+enum GENRE {
+    FANTASY
+    SCIENCE_FICTION
+    DYSTOPIAN
+    ADVENTURE
+    MYSTERY
+    HORROR
+    SUSPENSE
+    HISTORICAL_FICTION
+    ROMANCE
+    WOMENS_FICTION
+    LGBTQ
+    CONTEMPORARY_FICTION
+    LITERARY_FICTION
+    MAGICAL_REALISM
+    GRAPHIC_NOVEL
+    SHORT_STORY
+    YOUNG_ADULT
+    NEW_ADULT
+    CHILDRENS
+    MEMOIR
+    BIOGRAPHY
+    FOOD
+    ART
+    SELF_HELP
+    TRAVEL
+    HISTORY
+    TRUE_CRIME
+    HUMOR
+    ESSAYS
+    HOW_TO
+    SPIRITUALITY
+    PARENTING
+    RELATIONSHIPS
+    SCIENCE
+    TECHNOLOGY
+    SOCIAL_SCIENCES
+}
+
+enum READING_METHOD {
+    ABSORB
+    LEISURE
+    FAMILIARIZE
+    TECHNICAL
+}
+
+class book {
+    id : **uuid**
+    title : **str**
+    subtitle : **str**
+    author : **List[str]**
+    published_date : **datetime**
+    published_location : **str**
+    num_pages : **int**
+    public_rating : **float**
+    citation : **str**
+    series : **str**
+    num_in_series : **int**
+    narrator : **str**
+    num_ratings : **int**
+    description : **str**
+    isbn10 : **str**
+    isbn13 : **str**
+    cover : **str**
+    category : **CATEGORY**
+    genre : **GENRE**
+    rating : **float**
+    review : **str**
+    current_page : **int**
+    percent_read : **float**
+    reading_method : **READING_METHOD**
+    priority : **int**
+    date_added : **datetime**
+    date_started : **datetime**
+    date_completed : **datetime**
+    summary : **str**
+    annotations : **List[annotation]**
+    source : **SOURCE**
+    status : **STATUS**
+    format : **FORMAT**
+    updates: **List[update]**
+    + get_citation()
+    + get_cover()
+    + start()
+    + update_status()
+    + add_update()
+    + complete()
+}
+
+class collection {
+    id : **uuid**
+    name : **str**
+    books : **List[book]**
+    created_at : **datetime**
+    updated_at : **datetime**
+    + add_to_collection()
+    + remove_from_collection()
+    + rename_collection()
+}
+
+class annotation {
+    id : **uuid**
+    created_at : **datetime**
+    updated_at : **datetime**
+    book : **book**
+    page: **int**
+    location: **int**
+    quote: **str**
+    note: **str**
+    tags: **List[str]**
+    + add_highlight()
+    + add_note()
+    + delete_highlight()
+    + delete_note()
+    + update_highlight()
+    + update_note()
+    + add_tag()
+    + delete_tag()
+}
+
+class status_update {
+    id : **uuid**
+    created_at : **datetime**
+    book : **book**
+    current_page : **int**
+    annotation: **List[Annotation]**
+}
+
+book o-- GENRE
+book o-- CATEGORY
+book -- collection
+book o-- SOURCE
+book o-- FORMAT
+book o-- READING_METHOD
+book *-- annotation
+book *-- status_update
+book -- STATUS
+
+footer Created 12/19/2022 // Last updated 12/19/2022
+
+@enduml

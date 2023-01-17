@@ -2,6 +2,9 @@ import enum
 
 
 class Genre(enum.Enum):
+    """
+    The genre of the book
+    """
     FANTASY = "fantasy"
     SCIENCE_FICTION = "science fiction"
     DYSTOPIAN = "dystopian"

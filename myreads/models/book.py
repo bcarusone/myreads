@@ -6,14 +6,15 @@ from myreads.models.category import Category
 from myreads.models.format import Format
 from myreads.models.genre import Genre
 from myreads.models.source import Source
-from myreads.models.annotation import Annotation
-from myreads.models.update import Update
 from myreads.models.reading_method import ReadingMethod
 from myreads.models.status import Status
-from myreads.models.collection import Collection
 
 
 class Book():
+    """
+    The smallest fundamental unit. A book represents a single book
+    and all of its related properties.
+    """
     id: uuid.UUID
     created_at: datetime
     updated_at: datetime
@@ -45,12 +46,9 @@ class Book():
     date_started: date
     date_completed: date
     summary: str
-    annotations: List[Annotation]
     source: Source
     status: Status
     format: Format
-    updates: List[Update]
-    collections: List[Collection]
 
     def __init__(self):
         pass
@@ -59,12 +57,6 @@ class Book():
         pass
 
     def start(self):
-        pass
-
-    def update_status(self):
-        pass
-
-    def add_update(self):
         pass
 
     def complete(self):
